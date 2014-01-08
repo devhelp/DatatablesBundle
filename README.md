@@ -1,4 +1,1 @@
-datatables
-==========
-
 Datatables
