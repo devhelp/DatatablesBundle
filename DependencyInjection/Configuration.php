@@ -21,12 +21,21 @@ class Configuration implements ConfigurationInterface
         $treeBuilder = new TreeBuilder();
         $rootNode = $treeBuilder->root('devhelp_datatable');
         $rootNode->
-                children()
-                ->scalarNode('default_per_page')
-                ->isRequired()
-                ->cannotBeEmpty()
-                ->end();
-
+            children()
+            ->scalarNode('default_per_page')
+            ->isRequired()
+            ->cannotBeEmpty()
+            ->end();
+        $rootNode->
+            children()
+            ->arrayNode('grids')
+            ->prototype('array')
+            ->children()
+                ->scalarNode('sql')->isRequired()->end()
+                ->scalarNode('default_per_page')->end()
+                ->scalarNode('order_by')->end()
+                ->enumNode('order_type')->values(array('asc', 'desc'))->end()
+            ->end();
         return $treeBuilder;
     }
 

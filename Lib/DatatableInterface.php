@@ -1,10 +1,10 @@
 <?php
 
-namespace Devhelp\DatatableBundle\Util;
+namespace Devhelp\DatatableBundle\Lib;
 
-interface DatatablesInterface
+interface DatatableInterface
 {
-    public function setPerPage($per_page);
+    public function setRecordsPerPage($recordsPer_page);
     
     public function setQuery($query);
     
