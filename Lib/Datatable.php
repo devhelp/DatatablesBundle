@@ -39,18 +39,19 @@ class Datatable implements DatatableInterface
 
     }
 
-    private static function _remove_empty_internal($value)
-    {
-        return !empty($value) || $value === 0;
-    }
-
-    public function loadVariant($grid)
+    public function loadGridConfiguration($grid)
     {
         if (array_key_exists($grid, $this->configuredGrids)) {
             $this->currentGrid = $this->configuredGrids[$grid];
             $this->setQuery($this->currentGrid['sql']);
             if ($this->currentGrid['default_per_page']) {
                 $this->setRecordsPerPage($this->currentGrid['default_per_page']);
+            }
+            if ($this->currentGrid['order_by']) {
+                $this->setOrderBy($this->currentGrid['order_by']);
+            }
+            if ($this->currentGrid['order_type']) {
+                $this->setOrderType($this->currentGrid['order_type']);
             }
 
         } else {
@@ -63,6 +64,31 @@ class Datatable implements DatatableInterface
         $this->recordsPerPage = $recordsPerPage;
     }
 
+    public function getRecordsPerPage()
+    {
+        return $this->recordsPerPage;
+    }
+
+    public function setOrderBy($orderBy)
+    {
+        $this->orderBy = $orderBy;
+    }
+
+    public function getOrderBy()
+    {
+        return $this->orderBy;
+    }
+
+    public function setOrderType($orderType)
+    {
+        $this->orderType = $orderType;
+    }
+
+    public function getOrderType()
+    {
+        return $this->orderType;
+    }
+
     public function getQuery()
     {
         return $this->query;
@@ -73,7 +99,7 @@ class Datatable implements DatatableInterface
         $this->query = $query;
     }
 
-    public function getJsonResult()
+    public function getResult()
     {
         $filteringArray = $this->buildFilterQuery();
         $this->buildOrderQuery();
@@ -110,7 +136,12 @@ class Datatable implements DatatableInterface
         $filteringArray = array();
 
         if ($sColumns = $this->request->query->get('sColumns')) {
-            $sColumns = array_filter(explode(',', $sColumns), array('self', '_remove_empty_internal'));
+            $sColumns = array_filter(
+                explode(',', $sColumns),
+                function ($value) {
+                    return !empty($value) || $value === 0;
+                }
+            );
             $columnLenght = count($sColumns);
             for ($i = 0; $i < $columnLenght; $i++) {
                 $filteringArray[$sColumns[$i]] = $this->request->query->get('sSearch_' . $i);
@@ -125,8 +156,8 @@ class Datatable implements DatatableInterface
 
     public function buildOrderQuery()
     {
-        if($this->orderBy and $this->orderType) {
-            $this->query .= ' ORDER BY '.$this->orderBy.$this->orderType;
+        if ($this->getOrderBy() and $this->getOrderType()) {
+            $this->query .= ' ORDER BY ' . $this->getOrderBy() .' '. $this->getOrderType();
         }
     }
 
