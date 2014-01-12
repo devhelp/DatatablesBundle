@@ -3,6 +3,14 @@ DatatableBundle
 
 This bundle provides a simple integration of [Datatables](http://datatables.net/).
 
+Installation
+------------
+using composer.json
+
+    "require": {
+        "devhelp/datatable-bundle": "dev-master"
+    },
+
 Configuration
 ------------
     #config.yml
