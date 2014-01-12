@@ -87,7 +87,7 @@ class Datatable extends AbstractDatatable
     {
         $filteringArray = array();
 
-        if ($sColumns = $this->request->query->get('sColumns')) {
+        if ($sColumns = $this->request->query->get("sColumns")) {
             $sColumns = array_filter(
                 explode(',', $sColumns),
                 function ($value) {
@@ -98,7 +98,7 @@ class Datatable extends AbstractDatatable
             for ($i = 0; $i < $columnLenght; $i++) {
                 $filteringArray[$sColumns[$i]] = $this->request->query->get("sSearch_" . $i);
                 $this->query .= " AND " . $sColumns[$i] . " LIKE '%" . $this->request->query->get(
-                        'sSearch_' . $i
+                        "sSearch_" . $i
                     ) . "%'";
             }
         }
