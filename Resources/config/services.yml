@@ -6,3 +6,7 @@ services:
         class: "%datatables.class%"
         scope: request
         arguments: ["@knp_paginator","@jms_serializer","@doctrine.orm.default_entity_manager","@?request=", "%default_per_page%", "%grids%"]
+    devhelp.twig.datatable_extension:
+        class: Devhelp\DatatableBundle\Twig\DatatableExtension
+        tags:
+            - { name: twig.extension }

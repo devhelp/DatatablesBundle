@@ -96,10 +96,12 @@ class Datatable extends AbstractDatatable
             );
             $columnLenght = count($sColumns);
             for ($i = 0; $i < $columnLenght; $i++) {
-                $filteringArray[$sColumns[$i]] = $this->request->query->get("sSearch_" . $i);
-                $this->query .= " AND " . $sColumns[$i] . " LIKE '%" . $this->request->query->get(
-                        "sSearch_" . $i
-                    ) . "%'";
+                if ($this->request->query->get("sSearch_" . $i)) {
+                    $filteringArray[$sColumns[$i]] = $this->request->query->get("sSearch_" . $i);
+                    $this->query .= " AND " . $sColumns[$i] . " LIKE '%" . $this->request->query->get(
+                            "sSearch_" . $i
+                        ) . "%'";
+                }
             }
         }
 
