@@ -8,9 +8,8 @@ use JMS\Serializer\Serializer;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\Security\Acl\Exception\Exception;
 
-class Datatable implements DatatableInterface
+class Datatable extends AbstractDatatable
 {
-
     protected $paginator;
     protected $request;
     protected $query;
@@ -29,13 +28,7 @@ class Datatable implements DatatableInterface
         $defaultRecordsPerPage,
         $grids
     ) {
-        $this->paginator = $paginator;
-        $this->serializer = $serializer;
-        $this->recordsPerPage = $defaultRecordsPerPage;
-        $this->request = $request;
-        $this->entityManager = $entityManager;
-        $this->output = array();
-        $this->configuredGrids = $grids;
+        parent::__construct($paginator, $serializer, $entityManager, $request, $defaultRecordsPerPage, $grids);
 
     }
 
@@ -53,50 +46,9 @@ class Datatable implements DatatableInterface
             if ($this->currentGrid['order_type']) {
                 $this->setOrderType($this->currentGrid['order_type']);
             }
-
         } else {
             throw new Exception('Grid not found');
         }
-    }
-
-    public function setRecordsPerPage($recordsPerPage)
-    {
-        $this->recordsPerPage = $recordsPerPage;
-    }
-
-    public function getRecordsPerPage()
-    {
-        return $this->recordsPerPage;
-    }
-
-    public function setOrderBy($orderBy)
-    {
-        $this->orderBy = $orderBy;
-    }
-
-    public function getOrderBy()
-    {
-        return $this->orderBy;
-    }
-
-    public function setOrderType($orderType)
-    {
-        $this->orderType = $orderType;
-    }
-
-    public function getOrderType()
-    {
-        return $this->orderType;
-    }
-
-    public function getQuery()
-    {
-        return $this->query;
-    }
-
-    public function setQuery($query)
-    {
-        $this->query = $query;
     }
 
     public function getResult()
@@ -157,7 +109,7 @@ class Datatable implements DatatableInterface
     public function buildOrderQuery()
     {
         if ($this->getOrderBy() and $this->getOrderType()) {
-            $this->query .= ' ORDER BY ' . $this->getOrderBy() .' '. $this->getOrderType();
+            $this->query .= ' ORDER BY ' . $this->getOrderBy() . ' ' . $this->getOrderType();
         }
     }
 
