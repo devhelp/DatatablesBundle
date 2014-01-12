@@ -36,18 +36,18 @@ class Datatable extends AbstractDatatable
     {
         if (array_key_exists($grid, $this->configuredGrids)) {
             $this->currentGrid = $this->configuredGrids[$grid];
-            $this->setQuery($this->currentGrid['sql']);
-            if ($this->currentGrid['default_per_page']) {
-                $this->setRecordsPerPage($this->currentGrid['default_per_page']);
+            $this->setQuery($this->currentGrid["sql"]);
+            if ($this->currentGrid["default_per_page"]) {
+                $this->setRecordsPerPage($this->currentGrid["default_per_page"]);
             }
-            if ($this->currentGrid['order_by']) {
-                $this->setOrderBy($this->currentGrid['order_by']);
+            if ($this->currentGrid["order_by"]) {
+                $this->setOrderBy($this->currentGrid["order_by"]);
             }
-            if ($this->currentGrid['order_type']) {
-                $this->setOrderType($this->currentGrid['order_type']);
+            if ($this->currentGrid["order_type"]) {
+                $this->setOrderType($this->currentGrid["order_type"]);
             }
         } else {
-            throw new Exception('Grid not found');
+            throw new Exception("Grid not found");
         }
     }
 
@@ -56,7 +56,7 @@ class Datatable extends AbstractDatatable
         $filteringArray = $this->buildFilterQuery();
         $this->buildOrderQuery();
         $current_page = round(
-                $this->request->query->get('iDisplayStart', 0) / $this->request->query->get('iDisplayLength', 1)
+                $this->request->query->get("iDisplayStart", 0) / $this->request->query->get("iDisplayLength", 1)
             ) + 1;
         $pagination = $this->paginator->paginate(
             $this->entityManager->createQuery($this->query),
@@ -65,7 +65,7 @@ class Datatable extends AbstractDatatable
         );
 
         $outputHeader = array(
-            "sEcho" => intval($this->request->query->get('sEcho')),
+            "sEcho" => intval($this->request->query->get("sEcho")),
             "iTotalRecords" => $pagination->getTotalItemCount(),
             "iTotalDisplayRecords" => $pagination->getTotalItemCount(),
             'filters' => $filteringArray,
@@ -73,12 +73,12 @@ class Datatable extends AbstractDatatable
         );
 
         foreach ($pagination as $item) {
-            $this->output['aaData'][] = $item;
+            $this->output["aaData"][] = $item;
         };
 
         $this->output = array_merge($outputHeader, $this->output);
 
-        $json = $this->serializer->serialize($this->output, 'json');
+        $json = $this->serializer->serialize($this->output, "json");
 
         return $json;
     }
@@ -96,8 +96,8 @@ class Datatable extends AbstractDatatable
             );
             $columnLenght = count($sColumns);
             for ($i = 0; $i < $columnLenght; $i++) {
-                $filteringArray[$sColumns[$i]] = $this->request->query->get('sSearch_' . $i);
-                $this->query .= " and " . $sColumns[$i] . " LIKE '%" . $this->request->query->get(
+                $filteringArray[$sColumns[$i]] = $this->request->query->get("sSearch_" . $i);
+                $this->query .= " AND " . $sColumns[$i] . " LIKE '%" . $this->request->query->get(
                         'sSearch_' . $i
                     ) . "%'";
             }
@@ -109,7 +109,7 @@ class Datatable extends AbstractDatatable
     public function buildOrderQuery()
     {
         if ($this->getOrderBy() and $this->getOrderType()) {
-            $this->query .= ' ORDER BY ' . $this->getOrderBy() . ' ' . $this->getOrderType();
+            $this->query .= " ORDER BY " . $this->getOrderBy() . " " . $this->getOrderType();
         }
     }
 
