@@ -1,6 +1,8 @@
 DatatableBundle
 ================================
 
+This bundle provides a simple integration of [datatable](http://datatables.net/).
+
 Configuration
 ------------
     devhelp_datatable:
