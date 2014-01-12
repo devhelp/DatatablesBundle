@@ -1,0 +1,19 @@
+{
+    "name": "devhelp/datatable-bundle",
+    "description": "Datatable support for Symfony 2",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Michal Sikora",
+            "email": "michal@devhelp.pl"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "php":                            ">=5.3.6",
+        "symfony/framework-bundle":       "~2.2"
+        "knplabs/knp-paginator-bundle": "dev-master",
+        "jms/serializer": "dev-master",
+        "jms/serializer-bundle": "dev-master"
+    }
+}
