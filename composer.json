@@ -12,8 +12,8 @@
     "require": {
         "php":                            ">=5.3.6",
         "symfony/framework-bundle":       ">=2.3",
-        "knplabs/knp-paginator-bundle": "2.3.*@dev",
-        "jms/serializer": "0.14.*@dev",
-        "jms/serializer-bundle": "0.13.*@dev"
+        "knplabs/knp-paginator-bundle": "dev-master",
+        "jms/serializer": "dev-master",
+        "jms/serializer-bundle": "dev-master"
     }
 }

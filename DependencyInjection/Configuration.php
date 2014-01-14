@@ -35,6 +35,12 @@ class Configuration implements ConfigurationInterface
                 ->scalarNode('default_per_page')->end()
                 ->scalarNode('order_by')->end()
                 ->enumNode('order_type')->values(array('asc', 'desc'))->end()
+                ->arrayNode('columns')
+                ->prototype('array')
+                    ->children()
+                    ->scalarNode('mData')->isRequired()->end()
+                    ->scalarNode('bSearchable')->isRequired()->end()
+                    ->scalarNode('sName')->isRequired()->end()
             ->end();
         return $treeBuilder;
     }

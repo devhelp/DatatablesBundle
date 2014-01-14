@@ -85,4 +85,14 @@ abstract class AbstractDatatable implements DatatableInterface
         $this->query = $query;
     }
 
+    public function getCurrentGrid()
+    {
+        return $this->currentGrid;
+    }
+
+    public function setCurrentGrid($grid)
+    {
+        $this->currentGrid = $grid;
+    }
+
 }

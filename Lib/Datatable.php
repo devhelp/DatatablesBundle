@@ -53,6 +53,7 @@ class Datatable extends AbstractDatatable
 
     public function getResult()
     {
+
         $filteringArray = $this->buildFilterQuery();
         $this->buildOrderQuery();
         $current_page = round(
