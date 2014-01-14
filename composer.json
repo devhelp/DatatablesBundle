@@ -9,8 +9,9 @@
         }
     ],
     "autoload": {
-        "psr-0": { "": "src/" }
+        "psr-0": { "Devhelp\\DatatableBundle": "" }
     },
+    "target-dir": "Devhelp/DatatableBundle",
     "minimum-stability": "dev",
     "require": {
         "php":                            ">=5.3.6",
