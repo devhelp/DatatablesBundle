@@ -1,13 +1,13 @@
 parameters:
-    datatables.class: Devhelp\DatatableBundle\Lib\Datatable
+    datatables.class: Devhelp\DatatablesBundle\Lib\Datatables
 services:
-    datatables:
+    devhelp.datatables:
         class: "%datatables.class%"
         scope: request
         arguments: ["@knp_paginator","@jms_serializer","@doctrine.orm.default_entity_manager","@?request=", "%default_per_page%", "%grids%"]
 
-    devhelp.twig.datatable_extension:
-        class: Devhelp\DatatableBundle\Twig\DatatableExtension
+    devhelp.twig.datatables_extension:
+        class: Devhelp\DatatablesBundle\Twig\DatatablesExtension
         arguments: ["@service_container"]
         tags:
             - { name: twig.extension }

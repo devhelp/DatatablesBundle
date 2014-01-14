@@ -1,6 +1,6 @@
 <?php
 
-namespace Devhelp\DatatableBundle\Tests\Controller;
+namespace Devhelp\DatatablesBundle\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 

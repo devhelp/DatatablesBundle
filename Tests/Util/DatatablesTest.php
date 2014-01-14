@@ -2,7 +2,7 @@
 
 // src/Acme/DemoBundle/Tests/Utility/CalculatorTest.php
 
-namespace Devhelp\DatatableBundle\Tests\Util;
+namespace Devhelp\DatatablesBundle\Tests\Util;
 
 use Devhelp\DatatableBundle\Util\Datatables;
 use Symfony\Component\HttpFoundation\Request;

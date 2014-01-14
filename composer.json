@@ -1,6 +1,6 @@
 {
-    "name": "devhelp/datatable-bundle",
-    "description": "Datatable support for Symfony 2",
+    "name": "devhelp/datatables-bundle",
+    "description": "Datatables support for Symfony 2",
     "license": "MIT",
     "authors": [
         {
@@ -9,9 +9,9 @@
         }
     ],
     "autoload": {
-        "psr-0": { "Devhelp\\DatatableBundle": "" }
+        "psr-0": { "Devhelp\\DatatablesBundle": "" }
     },
-    "target-dir": "Devhelp/DatatableBundle",
+    "target-dir": "Devhelp/DatatablesBundle",
     "minimum-stability": "dev",
     "require": {
         "php":                            ">=5.3.6",

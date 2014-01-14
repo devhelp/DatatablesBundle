@@ -1,6 +1,6 @@
 <?php
 
-namespace Devhelp\DatatableBundle\Tests\Util;
+namespace Devhelp\DatatablesBundle\Tests\Util;
 
 
 

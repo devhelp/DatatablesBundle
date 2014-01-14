@@ -1,6 +1,6 @@
 <?php
 
-namespace Devhelp\DatatableBundle\DependencyInjection;
+namespace Devhelp\DatatablesBundle\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
@@ -19,7 +19,7 @@ class Configuration implements ConfigurationInterface
     public function getConfigTreeBuilder()
     {
         $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('devhelp_datatable');
+        $rootNode = $treeBuilder->root('devhelp_datatables');
         $rootNode->
             children()
             ->scalarNode('default_per_page')
