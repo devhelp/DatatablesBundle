@@ -14,7 +14,7 @@ using composer.json
 
 ###Create configuration
 
-####config.yml
+#####config.yml
 
     devhelp_datatables:
         default_per_page: 10
@@ -32,7 +32,7 @@ using composer.json
                     - { mData: 'category.name', bSearchable: 1, sName : 'c.name' }
 
 
-####AppKernel.php
+#####AppKernel.php
     $bundles = array(
         ...
         new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(),
@@ -43,7 +43,7 @@ using composer.json
 
 ###Create entities and repository class
 
-####Product.php
+#####Product.php
 
     namespace Devhelp\DemoBundle\Entity;
 
@@ -85,7 +85,7 @@ using composer.json
         protected $category;
     }
 
-###Category.php
+#####Category.php
 
     namespace Devhelp\DemoBundle\Entity;
 
