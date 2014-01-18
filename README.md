@@ -1,22 +1,21 @@
-DatatablesBundle
-================================
+#DatatablesBundle
+
 
 This bundle provides a simple integration of [Datatables](http://datatables.net/).
 
-Installation
-------------
+##Installation
 using composer.json
 
     "require": {
         "devhelp/datatables-bundle": "dev-master"
     },
 
-Configuration
-------------
+##Configuration
 
-Create configuration
-============
-    #config.yml
+###Create configuration
+
+####config.yml
+
     devhelp_datatables:
         default_per_page: 10
         grids:
@@ -32,7 +31,8 @@ Create configuration
                     - { mData: 'price', bSearchable: 1, sName : 'p.price' }
                     - { mData: 'category.name', bSearchable: 1, sName : 'c.name' }
 
-    #AppKernel.php
+
+####AppKernel.php
     $bundles = array(
         ...
         new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(),
@@ -41,10 +41,10 @@ Create configuration
         ...
     )
 
-Create simple entity and repository class
-=========================================
+###Create entities and repository class
 
-    #Product.php
+####Product.php
+
     namespace Devhelp\DemoBundle\Entity;
 
     use Doctrine\ORM\Mapping as ORM;
@@ -85,7 +85,34 @@ Create simple entity and repository class
         protected $category;
     }
 
-    #ProductRepository
+###Category.php
+
+    namespace Devhelp\DemoBundle\Entity;
+
+    use Doctrine\ORM\Mapping as ORM;
+
+    /**
+     * @ORM\Entity
+     * @ORM\Table(name="category")
+     */
+    class Category
+    {
+        /**
+         * @ORM\Column(type="integer")
+         * @ORM\Id
+         * @ORM\GeneratedValue(strategy="AUTO")
+         */
+        protected $id;
+
+        /**
+         * @ORM\Column(type="string", length=100)
+         */
+        protected $name;
+
+    }
+
+#####ProductRepository.php
+
     namespace Devhelp\DemoBundle\Entity;
 
     use Devhelp\DatatablesBundle\Lib\AbstractDatatablesRepository;
@@ -105,8 +132,8 @@ Create simple entity and repository class
     }
 
 
-Usage
-------------
+##Usage
+
     public function indexAction()
     {
         $grid = $this->get('devhelp.datatables');
