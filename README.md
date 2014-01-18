@@ -33,7 +33,7 @@ using composer.json
 
 
 #####AppKernel.php
-    ```php
+```php
     $bundles = array(
         ...
         new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(),
@@ -45,7 +45,7 @@ using composer.json
 ###Create entities and repository class
 
 #####Product.php
-    ```php
+```php
     namespace Devhelp\DemoBundle\Entity;
 
     use Doctrine\ORM\Mapping as ORM;
