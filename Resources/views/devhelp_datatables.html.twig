@@ -1,4 +1,6 @@
-<table cellpadding="0" cellspacing="0" border="0" class="display" id="{{ id }}">
+<script type="text/javascript" src="http://taskmanager.local/js/jquery.dataTables.columnFilter.js"></script>
+
+<table cellpadding="0" cellspacing="0" border="0" class="display table table-striped table-bordered" id="{{ id }}">
     <thead>
     <tr>
         {% for column in columns %}
@@ -7,7 +9,6 @@
     </tr>
     </thead>
     <tbody>
-
     </tbody>
     <tfoot>
     <tr>
@@ -19,19 +20,19 @@
 </table>
 <script>
     $(document).ready(function() {
-        $('#{{ id }}').dataTable({
+        var datatables = $('#{{ id }}').dataTable({
             bProcessing     : true,
             sAjaxSource     : "http://devhelp.local/app_dev.php/grid",
             bServerSide     : true,
-            "iDisplayLength": 1,
-            bLengthChange   : false,
-            bInfo           : false,
-            sPaginationType : "full_numbers",
             aoColumns: [
                 {% for column in columns %}
                     { mData: "{{ column.mData }}", bSearchable: {{ column.bSearchable }}   , sName : "{{ column.sName }}" },
                 {% endfor %}
             ]
         });
+
+        datatables.columnFilter();
+
     });
+
 </script>

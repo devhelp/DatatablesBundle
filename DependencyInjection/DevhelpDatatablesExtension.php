@@ -25,7 +25,6 @@ class DevhelpDatatablesExtension extends Extension
 
         $container->setParameter('default_per_page', $config['default_per_page']);
         $container->setParameter('grids', $config['grids']);
-
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
         $loader->load('services.yml');
     }

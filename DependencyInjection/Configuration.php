@@ -31,7 +31,7 @@ class Configuration implements ConfigurationInterface
             ->arrayNode('grids')
             ->prototype('array')
             ->children()
-                ->scalarNode('sql')->isRequired()->end()
+                ->scalarNode('model')->isRequired()->end()
                 ->scalarNode('default_per_page')->end()
                 ->scalarNode('order_by')->end()
                 ->enumNode('order_type')->values(array('asc', 'desc'))->end()

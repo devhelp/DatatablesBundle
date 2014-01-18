@@ -8,9 +8,7 @@ interface DatatablesInterface
 
     public function getResult();
 
-    public function buildFilterQuery();
-
-    public function buildOrderQuery();
+    public function buildRequestParams();
 
     public function setRecordsPerPage($recordsPerPage);
 
@@ -24,8 +22,8 @@ interface DatatablesInterface
 
     public function getOrderType();
 
-    public function getQuery();
+    public function getModel();
 
-    public function setQuery($query);
+    public function setModel($model);
 
 }

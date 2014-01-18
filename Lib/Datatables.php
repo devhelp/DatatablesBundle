@@ -10,16 +10,15 @@ use Symfony\Component\Security\Acl\Exception\Exception;
 
 class Datatables extends AbstractDatatables
 {
-    protected $paginator;
-    protected $request;
-    protected $query;
-    protected $serializer;
-    protected $recordsPerPage;
-    protected $entityManager;
-    protected $currentGrid;
-    protected $orderBy;
-    protected $orderType;
 
+    /**
+     * @param Paginator $paginator
+     * @param Serializer $serializer
+     * @param EntityManager $entityManager
+     * @param Request $request
+     * @param $defaultRecordsPerPage
+     * @param $grids
+     */
     public function __construct(
         Paginator $paginator,
         Serializer $serializer,
@@ -32,44 +31,45 @@ class Datatables extends AbstractDatatables
 
     }
 
+    /**
+     * @param $grid
+     * @throws \Symfony\Component\Security\Acl\Exception\Exception
+     */
     public function loadGridConfiguration($grid)
     {
         if (array_key_exists($grid, $this->configuredGrids)) {
             $this->currentGrid = $this->configuredGrids[$grid];
-            $this->setQuery($this->currentGrid["sql"]);
+            $this->setModel($this->currentGrid["model"]);
+            $this->setQueryBuilder($this->entityManager->getRepository($this->getModel())->getBaseQuery());
             if ($this->currentGrid["default_per_page"]) {
                 $this->setRecordsPerPage($this->currentGrid["default_per_page"]);
-            }
-            if ($this->currentGrid["order_by"]) {
-                $this->setOrderBy($this->currentGrid["order_by"]);
-            }
-            if ($this->currentGrid["order_type"]) {
-                $this->setOrderType($this->currentGrid["order_type"]);
             }
         } else {
             throw new Exception("Grid not found");
         }
     }
 
+    /**
+     * @return mixed
+     */
     public function getResult()
     {
 
-        $filteringArray = $this->buildFilterQuery();
-        $this->buildOrderQuery();
-        $current_page = round(
+        $requestParams = $this->buildRequestParams();
+
+        $current_page = floor(
                 $this->request->query->get("iDisplayStart", 0) / $this->request->query->get("iDisplayLength", 1)
             ) + 1;
         $pagination = $this->paginator->paginate(
-            $this->entityManager->createQuery($this->query),
+            $this->getQueryBuilder(),
             $current_page,
             $this->recordsPerPage
         );
-
         $outputHeader = array(
             "sEcho" => intval($this->request->query->get("sEcho")),
-            "iTotalRecords" => $pagination->getTotalItemCount(),
+            "iTotalRecords" => $this->entityManager->getRepository($this->getModel())->getTotalRowsCount(),
             "iTotalDisplayRecords" => $pagination->getTotalItemCount(),
-            'filters' => $filteringArray,
+            'filters' => $requestParams,
             "aaData" => array()
         );
 
@@ -78,16 +78,18 @@ class Datatables extends AbstractDatatables
         };
 
         $this->output = array_merge($outputHeader, $this->output);
-
         $json = $this->serializer->serialize($this->output, "json");
 
         return $json;
     }
 
-    public function buildFilterQuery()
+    /**
+     * @return array
+     */
+    public function buildRequestParams()
     {
-        $filteringArray = array();
-
+        $filtering = array();
+        $sorting = array();
         if ($sColumns = $this->request->query->get("sColumns")) {
             $sColumns = array_filter(
                 explode(',', $sColumns),
@@ -95,25 +97,43 @@ class Datatables extends AbstractDatatables
                     return !empty($value) || $value === 0;
                 }
             );
-            $columnLenght = count($sColumns);
-            for ($i = 0; $i < $columnLenght; $i++) {
-                if ($this->request->query->get("sSearch_" . $i)) {
-                    $filteringArray[$sColumns[$i]] = $this->request->query->get("sSearch_" . $i);
-                    $this->query .= " AND " . $sColumns[$i] . " LIKE '%" . $this->request->query->get(
-                            "sSearch_" . $i
-                        ) . "%'";
+            $columnLength = count($sColumns);
+
+            $sSearch = $this->request->query->get("sSearch","");
+
+            if($sSearch) {
+                $orX =  $this->getQueryBuilder()->expr()->orX();
+                for ($i = 0; $i < $columnLength; $i++) {
+                    $orX->add($sColumns[$i] ." LIKE '%" . $sSearch . "%'");
+                }
+                $this->getQueryBuilder()->add('where', $orX);
+            }
+            for ($i = 0; $i < $columnLength; $i++) {
+                $column = $this->request->query->get("sSearch_" . $i);
+                $columnSearchable = (int)$this->request->query->get("bSearchable_" . $i);
+                if ($column and $columnSearchable) {
+                    $filtering[$sColumns[$i]] = $column;
+                    $this->getQueryBuilder()->andWhere($this->getQueryBuilder()->expr()->like($sColumns[$i], ":col" . $i))
+                        ->setParameter("col" . $i, '%' . $column . '%');
+                }
+            }
+            $iSortingCols = (int)$this->request->query->get("iSortingCols",0);
+            if($iSortingCols) {
+                for ($i = 0; $i < $iSortingCols; $i++) {
+                    $column = (int)$this->request->query->get("iSortCol_" . $i);
+                    $order = $this->request->get("sSortDir_".$i);
+                    if ($column !== false and $order) {
+                        $sorting[$sColumns[$column]] = $order;
+                        $this->getQueryBuilder()->addOrderBy($sColumns[$column], $order);
+                    }
+                }
+            } else {
+                if ($this->getOrderBy() and $this->getOrderType()) {
+                    $this->getQueryBuilder()->addOrderBy($this->getOrderBy(), $this->getOrderType());
                 }
             }
         }
-
-        return $filteringArray;
-    }
-
-    public function buildOrderQuery()
-    {
-        if ($this->getOrderBy() and $this->getOrderType()) {
-            $this->query .= " ORDER BY " . $this->getOrderBy() . " " . $this->getOrderType();
-        }
+        return array('filtering' => $filtering, 'sorting' => $sorting, 'searching' => $sSearch);
     }
 
 }
