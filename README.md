@@ -5,17 +5,17 @@ This bundle provides a simple integration of [Datatables](http://datatables.net/
 
 ##Installation
 using composer.json
-
+```javascript
     "require": {
         "devhelp/datatables-bundle": "dev-master"
     },
-
+```
 ##Configuration
 
 ###Create configuration
 
 #####config.yml
-
+```yaml
     devhelp_datatables:
         default_per_page: 10
         grids:
@@ -30,7 +30,7 @@ using composer.json
                     - { mData: 'description', bSearchable: 1, sName : 'p.description' }
                     - { mData: 'price', bSearchable: 1, sName : 'p.price' }
                     - { mData: 'category.name', bSearchable: 1, sName : 'c.name' }
-
+```
 
 #####AppKernel.php
 ```php
@@ -41,7 +41,7 @@ using composer.json
         new Devhelp\DatatablesBundle\DevhelpDatatablesBundle(),
         ...
     )
-
+```
 ###Create entities and repository class
 
 #####Product.php
@@ -85,9 +85,9 @@ using composer.json
          */
         protected $category;
     }
-
+```
 #####Category.php
-
+```php
     namespace Devhelp\DemoBundle\Entity;
 
     use Doctrine\ORM\Mapping as ORM;
@@ -111,9 +111,9 @@ using composer.json
         protected $name;
 
     }
-
+```
 #####ProductRepository.php
-
+```php
     namespace Devhelp\DemoBundle\Entity;
 
     use Devhelp\DatatablesBundle\Lib\AbstractDatatablesRepository;
@@ -131,10 +131,10 @@ using composer.json
             return count($this->createQueryBuilder('p')->leftJoin('p.category','c')->getQuery()->getScalarResult());
         }
     }
-
+````
 
 ##Usage
-
+```php
     public function indexAction()
     {
         $grid = $this->get('devhelp.datatables');
@@ -143,3 +143,4 @@ using composer.json
         $jsonResult =  $grid->getResult();
         return new Response($jsonResult);
     }
+```
