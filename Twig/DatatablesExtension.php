@@ -3,15 +3,28 @@
 namespace Devhelp\DatatablesBundle\Twig;
 
 
+/**
+ * Class DatatablesExtension
+ * @package Devhelp\DatatablesBundle\Twig
+ */
 class DatatablesExtension extends \Twig_Extension
 {
+    /**
+     * @var
+     */
     public $container;
 
+    /**
+     * @param $container
+     */
     public function __construct($container)
     {
         $this->container = $container;
     }
 
+    /**
+     * @return array
+     */
     public function getFunctions()
     {
         return array(
@@ -21,6 +34,10 @@ class DatatablesExtension extends \Twig_Extension
         );
     }
 
+    /**
+     * @param $grid
+     * @return mixed
+     */
     public function devhelpDatatables($grid)
     {
         $datatables = $this->container->get('devhelp.datatables');
@@ -29,10 +46,13 @@ class DatatablesExtension extends \Twig_Extension
 
         return $this->container->get('templating')->render(
             'DevhelpDatatablesBundle::devhelp_datatables.html.twig',
-            array('columns' => $config['columns'], 'id' => $grid)
+            array('config' => $config, 'id' => $grid)
         );
     }
 
+    /**
+     * @return string
+     */
     public function getName()
     {
         return 'datatables_extension';

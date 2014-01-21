@@ -126,10 +126,6 @@ using composer.json
             return $this->createQueryBuilder('p')->leftJoin('p.category','c');
         }
 
-        public function getTotalRowsCount()
-        {
-            return count($this->createQueryBuilder('p')->leftJoin('p.category','c')->getQuery()->getScalarResult());
-        }
     }
 ````
 

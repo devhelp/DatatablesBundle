@@ -24,7 +24,7 @@ abstract class AbstractDatatables implements DatatablesInterface
     protected $request;
 
     /**
-     * @var
+     * @var string
      */
     protected $model;
 
@@ -34,7 +34,7 @@ abstract class AbstractDatatables implements DatatablesInterface
     protected $serializer;
 
     /**
-     * @var
+     * @var integer
      */
     protected $recordsPerPage;
 
@@ -44,23 +44,27 @@ abstract class AbstractDatatables implements DatatablesInterface
     protected $entityManager;
 
     /**
-     * @var
+     * @var array
      */
     protected $currentGrid;
 
     /**
-     * @var
+     * @var string
      */
     protected $orderBy;
 
     /**
-     * @var
+     * @var string
      */
     protected $orderType;
 
+    /**
+     * @var \Doctrine\ORM\QueryBuilder
+     */
     protected $queryBuilder;
 
     /**
+     * s
      * @param Paginator $paginator
      * @param Serializer $serializer
      * @param EntityManager $entityManager
@@ -87,22 +91,21 @@ abstract class AbstractDatatables implements DatatablesInterface
     }
 
     /**
+     *
      * @param $grid
      * @return mixed
      */
     abstract public function loadGridConfiguration($grid);
 
     /**
+     *
      * @return mixed
      */
     abstract public function getResult();
 
-    /**
-     * @return mixed
-     */
-    abstract public function buildRequestParams();
 
     /**
+     *
      * @param $recordsPerPage
      */
     public function setRecordsPerPage($recordsPerPage)
@@ -111,6 +114,7 @@ abstract class AbstractDatatables implements DatatablesInterface
     }
 
     /**
+     *
      * @return mixed
      */
     public function getRecordsPerPage()
@@ -119,6 +123,7 @@ abstract class AbstractDatatables implements DatatablesInterface
     }
 
     /**
+     *
      * @param $orderBy
      */
     public function setOrderBy($orderBy)
@@ -127,6 +132,7 @@ abstract class AbstractDatatables implements DatatablesInterface
     }
 
     /**
+     *
      * @return mixed
      */
     public function getOrderBy()
@@ -135,6 +141,7 @@ abstract class AbstractDatatables implements DatatablesInterface
     }
 
     /**
+     *
      * @param $orderType
      */
     public function setOrderType($orderType)
@@ -143,6 +150,7 @@ abstract class AbstractDatatables implements DatatablesInterface
     }
 
     /**
+     *
      * @return mixed
      */
     public function getOrderType()
@@ -151,6 +159,7 @@ abstract class AbstractDatatables implements DatatablesInterface
     }
 
     /**
+     *
      * @return mixed
      */
     public function getModel()
@@ -159,7 +168,8 @@ abstract class AbstractDatatables implements DatatablesInterface
     }
 
     /**
-     * @param $query
+     *
+     * @param string $model
      */
     public function setModel($model)
     {
@@ -167,6 +177,7 @@ abstract class AbstractDatatables implements DatatablesInterface
     }
 
     /**
+     *
      * @return mixed
      */
     public function getCurrentGrid()
@@ -175,18 +186,27 @@ abstract class AbstractDatatables implements DatatablesInterface
     }
 
     /**
-     * @param $grid
+     *
+     * @param array $grid
      */
     public function setCurrentGrid($grid)
     {
         $this->currentGrid = $grid;
     }
 
+    /**
+     *
+     * @param \Doctrine\ORM\QueryBuilder $queryBuilder
+     */
     public function setQueryBuilder($queryBuilder)
     {
         $this->queryBuilder = $queryBuilder;
     }
 
+    /**
+     *
+     * @return \Doctrine\ORM\QueryBuilder
+     */
     public function getQueryBuilder()
     {
         return $this->queryBuilder;
