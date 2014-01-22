@@ -136,6 +136,7 @@ using composer.json
 ````
 
 ##Usage
+#####Controller
 ```php
     public function indexAction()
     {
@@ -146,6 +147,7 @@ using composer.json
         return new Response($jsonResult);
     }
 ```
+#####View
 ```twig
     {{ render_datatables_grid('product_grid') }}
 ```
