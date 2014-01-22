@@ -58,7 +58,7 @@ abstract class AbstractDatatablesRepository extends EntityRepository implements 
             for ($i = 0; $i < $columnLength; $i++) {
                 $column = $request->query->get("sSearch_" . $i);
                 $columnSearchable = (int)$request->query->get("bSearchable_" . $i);
-                if ($column and $columnSearchable) {
+                if ($column && $columnSearchable) {
 
                     $filtering[$sColumns[$i]] = $column;
                     $finalQuery->andWhere($this->getBaseQuery()->expr()->like($sColumns[$i], ":col" . $i))
@@ -70,13 +70,13 @@ abstract class AbstractDatatablesRepository extends EntityRepository implements 
                 for ($i = 0; $i < $iSortingCols; $i++) {
                     $column = (int)$request->query->get("iSortCol_" . $i);
                     $order = $request->get("sSortDir_" . $i);
-                    if ($column !== false and $order) {
+                    if ($column !== false && $order) {
                         $sorting[$sColumns[$column]] = $order;
                         $finalQuery->addOrderBy($sColumns[$column], $order);
                     }
                 }
             } else {
-                if ($default_order_by and $default_order_type) {
+                if ($default_order_by && $default_order_type) {
                     $finalQuery->addOrderBy($default_order_by, $default_order_type);
                 }
             }
