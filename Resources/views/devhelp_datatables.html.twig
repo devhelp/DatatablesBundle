@@ -23,7 +23,7 @@
     $(document).ready(function() {
         var datatables = $('#{{ id }}').dataTable({
             bProcessing     : true,
-            sAjaxSource     : "http://devhelp.local/app_dev.php/grid",
+            sAjaxSource     : "{{ path(config.routing) }}",
             bServerSide     : true,
             aoColumns: [
                 {% for column in config.columns %}

@@ -59,11 +59,6 @@ abstract class AbstractDatatables implements DatatablesInterface
     protected $orderType;
 
     /**
-     * @var \Doctrine\ORM\QueryBuilder
-     */
-    protected $queryBuilder;
-
-    /**
      * s
      * @param Paginator $paginator
      * @param Serializer $serializer
@@ -95,7 +90,7 @@ abstract class AbstractDatatables implements DatatablesInterface
      * @param $grid
      * @return mixed
      */
-    abstract public function loadGridConfiguration($grid);
+    abstract public function load($grid);
 
     /**
      *
@@ -192,24 +187,6 @@ abstract class AbstractDatatables implements DatatablesInterface
     public function setCurrentGrid($grid)
     {
         $this->currentGrid = $grid;
-    }
-
-    /**
-     *
-     * @param \Doctrine\ORM\QueryBuilder $queryBuilder
-     */
-    public function setQueryBuilder($queryBuilder)
-    {
-        $this->queryBuilder = $queryBuilder;
-    }
-
-    /**
-     *
-     * @return \Doctrine\ORM\QueryBuilder
-     */
-    public function getQueryBuilder()
-    {
-        return $this->queryBuilder;
     }
 
 }

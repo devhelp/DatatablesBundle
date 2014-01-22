@@ -32,6 +32,7 @@ class Configuration implements ConfigurationInterface
             ->prototype('array')
             ->children()
                 ->scalarNode('model')->isRequired()->end()
+                ->scalarNode('routing')->isRequired()->end()
                 ->scalarNode('use_filters')->end()
                 ->scalarNode('default_per_page')->end()
                 ->scalarNode('order_by')->end()

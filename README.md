@@ -10,6 +10,10 @@ using composer.json
         "devhelp/datatables-bundle": "dev-master"
     },
 ```
+```cli
+    php app/console assetic:dump
+```
+
 ##Configuration
 
 ###Create configuration
@@ -21,6 +25,8 @@ using composer.json
         grids:
             product_grid:
                 model: Devhelp\DemoBundle\Entity\Product
+                routing: get_grid
+                use_filters: true
                 default_per_page: 10
                 order_by: 'p.name'
                 order_type: 'asc'
@@ -134,9 +140,12 @@ using composer.json
     public function indexAction()
     {
         $grid = $this->get('devhelp.datatables');
-        $grid->loadGridConfiguration('product_grid');
+        $grid->load('product_grid');
 
         $jsonResult =  $grid->getResult();
         return new Response($jsonResult);
     }
+```
+```twig
+    {{ render_datatables_grid('product_grid') }}
 ```

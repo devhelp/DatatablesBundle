@@ -13,7 +13,7 @@ interface DatatablesInterface
      * @param $grid
      * @return mixed
      */
-    public function loadGridConfiguration($grid);
+    public function load($grid);
 
     /**
      * @return mixed

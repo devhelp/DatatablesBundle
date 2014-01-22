@@ -1,5 +1,7 @@
 parameters:
     datatables.class: Devhelp\DatatablesBundle\Lib\Datatables
+    twig_extension.class: Devhelp\DatatablesBundle\Twig\DatatablesExtension
+
 services:
     devhelp.datatables:
         class: "%datatables.class%"
@@ -7,7 +9,7 @@ services:
         arguments: ["@knp_paginator","@jms_serializer","@doctrine.orm.default_entity_manager","@?request=", "%default_per_page%", "%grids%"]
 
     devhelp.twig.datatables_extension:
-        class: Devhelp\DatatablesBundle\Twig\DatatablesExtension
+        class: "%twig_extension.class%"
         arguments: ["@service_container"]
         tags:
             - { name: twig.extension }
