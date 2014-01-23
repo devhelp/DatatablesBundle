@@ -1,4 +1,6 @@
 #DatatablesBundle
+[![Build Status](https://travis-ci.org/devhelp/datatables.png?branch=master)](https://travis-ci.org/devhelp/datatables)
+
 [![SensioLabsInsight](https://insight.sensiolabs.com/projects/bc9237da-698a-417f-8e69-ab11b61f6811/big.png)](https://insight.sensiolabs.com/projects/bc9237da-698a-417f-8e69-ab11b61f6811)
 
 This bundle provides a simple integration of [Datatables](http://datatables.net/).
