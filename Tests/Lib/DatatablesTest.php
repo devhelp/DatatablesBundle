@@ -20,6 +20,11 @@ class DatatablesTest extends \PHPUnit_Framework_TestCase
     public $datatables;
 
     /**
+     * @var array
+     */
+    public $array;
+
+    /**
      *
      */
     public function setUp()
@@ -29,8 +34,9 @@ class DatatablesTest extends \PHPUnit_Framework_TestCase
         $em = $this->getEmMock();
         $request = new Request($this->setQueryRequest());
         $default_per_page = 10;
-        $this->datatables = new Datatables($pagination, $serializer, $em, $request, $default_per_page, $this->getConfiguredGrid()['grids']);
-        $this->datatables->loadGridConfiguration('simple_grid');
+        $config = $this->getConfiguredGrid();
+        $this->datatables = new Datatables($pagination, $serializer, $em, $request, $default_per_page, $config['grids']);
+
     }
 
     /**
@@ -43,6 +49,7 @@ class DatatablesTest extends \PHPUnit_Framework_TestCase
             'grids' => array(
                 'simple_grid' => array(
                     'model' => 'Devhelp\DatatablesBundle\Tests\Entity\Demo',
+                    'routing' => 'test',
                     'use_filters' => true,
                     'default_per_page' => 10,
                     'order_by' => 'p.name',
@@ -65,46 +72,83 @@ class DatatablesTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @return array
+     */
+    public function getItems()
+    {
+        $array = array();
+        $array[] = array('id' => 1, 'name' => 'test1');
+        $array[] = array('id' => 2, 'name' => 'test2');
+        $array[] = array('id' => 3, 'name' => 'test3');
+        $array[] = array('id' => 4, 'name' => 'test4');
+        $array[] = array('id' => 5, 'name' => 'test5');
+        return $array;
+    }
+
+    /**
+     * @return array
+     */
+    public function getOutputHeader()
+    {
+        $outputHeader = array(
+            "sEcho" => 1,
+            "iTotalRecords" => 5,
+            "iTotalDisplayRecords" => 5,
+            "aaData" => array()
+        );
+        return $outputHeader;
+    }
+
+    /**
      *
      */
-    public function testloadGridConfiguration()
+    public function testLoad()
     {
-        $this->assertEquals($this->getConfiguredGrid()['default_per_page'], 10);
-        $this->assertEquals($this->getConfiguredGrid()['grids']['simple_grid'], $this->datatables->getCurrentGrid());
-        $this->assertEquals($this->getConfiguredGrid()['grids']['simple_grid']['model'], $this->datatables->getModel());
-        $this->assertEquals($this->getConfiguredGrid()['grids']['simple_grid']['use_filters'], true);
-        $this->assertEquals($this->getConfiguredGrid()['grids']['simple_grid']['default_per_page'], $this->datatables->getRecordsPerPage());
-        $this->assertEquals($this->getConfiguredGrid()['grids']['simple_grid']['order_by'], $this->datatables->getOrderBy());
-        $this->assertTrue($this->datatables->getQueryBuilder() instanceof QueryBuilder);
-
-    }
-
-    public function testBuildFilterQuery()
-    {
-        $result = $this->datatables->buildRequestParams();
-
-        print_r($result);exit;
+        $this->datatables->load('simple_grid');
+        $grid = $this->getConfiguredGrid();
+        $this->assertEquals($grid['default_per_page'], 10);
+        $this->assertEquals($grid['grids']['simple_grid'], $this->datatables->getCurrentGrid());
+        $this->assertEquals($grid['grids']['simple_grid']['model'], $this->datatables->getModel());
+        $this->assertEquals($grid['grids']['simple_grid']['use_filters'], true);
+        $this->assertEquals($grid['grids']['simple_grid']['default_per_page'], $this->datatables->getRecordsPerPage());
+        $this->assertEquals($grid['grids']['simple_grid']['order_by'], $this->datatables->getOrderBy());
+        $this->assertEquals($grid['grids']['simple_grid']['order_type'], $this->datatables->getOrderType());
 
 
     }
 
+    /**
+     *
+     */
     public function testGetResult()
     {
+        $this->datatables->load('simple_grid');
+        $result = $this->datatables->getResult();
+
+
+        $items['aaData'] = $this->getItems();
+        $output = array_merge($this->getOutputHeader(), $items);
+
+
+        $this->assertEquals(serialize($output), $result);
 
     }
 
-
-
-
+    /**
+     * @return array
+     */
     public function setQueryRequest()
     {
         return array(
-            'sColumns'=>'p.id,p.name,p.description,p.price,c.name',
+            'sColumns' => 'p.id,p.name,p.description,p.price,c.name',
             'sSearch' => 'test',
             'sSearch_0' => '2',
             'sSearch_1' => '',
             'sSearch_2' => '',
             'sSearch_3' => '',
+            'iDisplayStart' => 1,
+            'iDisplayLength' => 10,
+            'sEcho' => 1
         );
     }
 
@@ -116,6 +160,14 @@ class DatatablesTest extends \PHPUnit_Framework_TestCase
         $mock = $this->getMockBuilder('JMS\Serializer\Serializer')
             ->disableOriginalConstructor()
             ->getMock();
+
+        $items['aaData'] = $this->getItems();
+        $output = array_merge($this->getOutputHeader(), $items);
+
+        $mock->expects($this->any())
+            ->method('serialize')
+            ->with($output)
+            ->will($this->returnValue(serialize($output)));
 
         return $mock;
     }
@@ -146,6 +198,10 @@ class DatatablesTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
+        $mock->expects($this->any())
+            ->method('paginate')
+            ->will($this->returnValue($this->getSlidingPaginationMock()));
+
         return $mock;
     }
 
@@ -154,13 +210,20 @@ class DatatablesTest extends \PHPUnit_Framework_TestCase
      */
     protected function getSlidingPaginationMock()
     {
+
+
         $mock = $this->getMockBuilder('Knp\Bundle\PaginatorBundle\Pagination\SlidingPagination')
             ->disableOriginalConstructor()
             ->getMock();
 
         $mock->expects($this->any())
             ->method('getTotalItemCount')
-            ->will($this->returnValue(2));
+            ->will($this->returnValue(5));
+
+        $mock->expects($this->any())
+            ->method('getItems')
+            ->will($this->returnValue($this->getItems()));
+
 
         return $mock;
     }
@@ -175,12 +238,12 @@ class DatatablesTest extends \PHPUnit_Framework_TestCase
             ->getMock();
 
         $mock->expects($this->any())
-            ->method('getBaseQuery')
+            ->method('buildFinalQuery')
             ->will($this->returnValue($this->getQueryBuilderMock()));
 
         $mock->expects($this->any())
             ->method('getTotalRowsCount')
-            ->will($this->returnValue(1));
+            ->will($this->returnValue(5));
 
         return $mock;
     }
@@ -194,34 +257,8 @@ class DatatablesTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $mock->expects($this->any())
-            ->method('expr')
-            ->will($this->returnValue($this->getExprMock()));
-
         return $mock;
     }
 
-    protected function getExprMock()
-    {
-        $mock = $this->getMockBuilder('Doctrine\ORM\Query\Expr')
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $mock->expects($this->any())
-            ->method('orX')
-            ->will($this->returnValue($this->getOrXMock()));
-
-        return $mock;
-    }
-
-    protected function getOrXMock() {
-        $mock = $this->getMockBuilder('Doctrine\ORM\Query\Expr\Orx')
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        return $mock;
-
-
-    }
 
 }

@@ -61,14 +61,16 @@ class Datatables extends AbstractDatatables
     {
 
         $finalQuery = $this->entityManager->getRepository($this->getModel())->buildFinalQuery($this->request, $this->getOrderBy(), $this->getOrderType());
+
         $current_page = floor(
                 $this->request->query->get("iDisplayStart", 0) / $this->request->query->get("iDisplayLength", 1)
             ) + 1;
         $pagination = $this->paginator->paginate(
             $finalQuery,
             $current_page,
-            $this->recordsPerPage
+            $this->getRecordsPerPage()
         );
+
         $outputHeader = array(
             "sEcho" => intval($this->request->query->get("sEcho")),
             "iTotalRecords" => $this->entityManager->getRepository($this->getModel())->getTotalRowsCount(),
@@ -76,10 +78,9 @@ class Datatables extends AbstractDatatables
             "aaData" => array()
         );
 
-        foreach ($pagination as $item) {
+        foreach ($pagination->getItems() as $item) {
             $this->output["aaData"][] = $item;
         };
-
         $this->output = array_merge($outputHeader, $this->output);
         $json = $this->serializer->serialize($this->output, "json");
 
