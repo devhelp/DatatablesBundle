@@ -1,6 +1,7 @@
 {
     "name": "devhelp/datatables-bundle",
     "description": "Datatables support for Symfony 2",
+    "type": "symfony-bundle",
     "license": "MIT",
     "authors": [
         {
