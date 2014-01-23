@@ -17,6 +17,7 @@
     "require": {
         "php":                            ">=5.3.6",
         "symfony/framework-bundle":       ">=2.3",
+        "doctrine/orm": "~2.2,>=2.2.3",
         "knplabs/knp-paginator-bundle": "2.3.3",
         "jms/serializer-bundle": "0.13.0"
     }
