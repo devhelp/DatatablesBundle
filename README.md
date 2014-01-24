@@ -1,5 +1,5 @@
 #DatatablesBundle
-[![Build Status](https://travis-ci.org/devhelp/datatables.png?branch=master)](https://travis-ci.org/devhelp/datatables)
+[![Build Status](https://travis-ci.org/devhelp/DatatablesBundle.png?branch=master)](https://travis-ci.org/devhelp/datatablesBundle)
 
 [![SensioLabsInsight](https://insight.sensiolabs.com/projects/bc9237da-698a-417f-8e69-ab11b61f6811/big.png)](https://insight.sensiolabs.com/projects/bc9237da-698a-417f-8e69-ab11b61f6811)
 
@@ -22,6 +22,12 @@ using composer.json
 
 #####config.yml
 ```yaml
+
+    assetic:
+        ...
+        bundles:        [ DevhelpDatatablesBundle ]
+        ...
+
     devhelp_datatables:
         default_per_page: 10
         grids:
@@ -140,6 +146,10 @@ using composer.json
 ##Usage
 #####Controller
 ```php
+    /**
+    *
+    * @Route("/grid", name="product_grid")
+    */
     public function indexAction()
     {
         $grid = $this->get('devhelp.datatables');
