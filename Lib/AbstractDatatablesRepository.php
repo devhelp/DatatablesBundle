@@ -22,7 +22,8 @@ abstract class AbstractDatatablesRepository extends EntityRepository implements 
      */
     public function getTotalRowsCount()
     {
-        return count($this->getBaseQuery()->getQuery()->getScalarResult());
+        return $this->getBaseQuery()->select('COUNT(p.id)')->getQuery()->getSingleScalarResult();
+
     }
 
     /**
