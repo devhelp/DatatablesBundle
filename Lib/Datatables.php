@@ -65,6 +65,8 @@ class Datatables extends AbstractDatatables
         $current_page = floor(
                 $this->request->query->get("iDisplayStart", 0) / $this->request->query->get("iDisplayLength", 1)
             ) + 1;
+
+
         $pagination = $this->paginator->paginate(
             $finalQuery,
             $current_page,
