@@ -27,7 +27,27 @@ using composer.json
         ...
         bundles:        [ DevhelpDatatablesBundle ]
         ...
+```
+#####Minimal configuration
+#####config.yml
+```yaml
+    devhelp_datatables:
+        default_per_page: 10
+        grids:
+            product_grid:
+                model: Devhelp\DemoBundle\Entity\Product
+                routing: get_grid
+                colum   ns:
+                    - { title: 'ID',          data: 'id',            alias : 'p.id' }
+                    - { title: 'Name',        data: 'name',          alias : 'p.name' }
+                    - { title: 'Description', data: 'description',   alias : 'p.description' }
+                    - { title: 'Price',       data: 'price',         alias : 'p.price' }
+                    - { title: 'Category',    data: 'category.name', alias : 'c.name'}
+```
 
+#####Full configuration
+#####config.yml
+```yaml
     devhelp_datatables:
         default_per_page: 10
         grids:
@@ -36,15 +56,15 @@ using composer.json
                 routing: get_grid
                 use_filters: true
                 default_per_page: 10
-                order_by: 'p.name'
-                order_type: 'asc'
                 columns:
-                    - { mData: 'id', bSearchable: 1, sName : 'p.id' }
-                    - { mData: 'name', bSearchable: 1, sName : 'p.name' }
-                    - { mData: 'description', bSearchable: 1, sName : 'p.description' }
-                    - { mData: 'price', bSearchable: 1, sName : 'p.price' }
-                    - { mData: 'category.name', bSearchable: 1, sName : 'c.name' }
+                    - { title: 'ID',          data: 'id',            alias : 'p.id',          searchable: 1, visible: 1, width: "10%" }
+                    - { title: 'Name',        data: 'name',          alias : 'p.name',        searchable: 1, visible: 1, width: "30%" }
+                    - { title: 'Description', data: 'description',   alias : 'p.description', searchable: 0, visible: 1, width: "10%" }
+                    - { title: 'Price',       data: 'price',         alias : 'p.price',       searchable: 1, visible: 1, width: "10%" }
+                    - { title: 'Category',    data: 'category.name', alias : 'c.name',        searchable: 1, visible: 1, width: "60%" }
 ```
+
+
 
 #####AppKernel.php
 ```php

@@ -2,10 +2,10 @@
 
 namespace Devhelp\DatatablesBundle\Twig;
 
-
 /**
- * Class DatatablesExtension
- * @package Devhelp\DatatablesBundle\Twig
+ * Datatables twig extension is responsible for render view
+ *
+ * @author <michal@devhelp.pl>
  */
 class DatatablesExtension extends \Twig_Extension
 {

@@ -1,76 +1,61 @@
 <?php
 
-namespace Devhelp\DatatablesBundle\Lib;
+namespace Devhelp\DatatablesBundle\Service;
 
+use Doctrine\ORM\EntityManagerInterface;
+use JMS\Serializer\SerializerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
-use Knp\Component\Pager\Paginator;
-use JMS\Serializer\Serializer;
-use Doctrine\ORM\EntityManager;
 
 /**
- * Class AbstractDatatables
- * @package Devhelp\DatatablesBundle\Lib
+ * AbstractDatatables class implements common method for all
+ * datables instance object
+ *
+ * @author <michal@devhelp.pl>
  */
-abstract class AbstractDatatables implements DatatablesInterface
+abstract class AbstractDatatables
 {
     /**
      * @var \Knp\Component\Pager\Paginator
      */
     protected $paginator;
-
     /**
      * @var \Symfony\Component\HttpFoundation\Request
      */
     protected $request;
-
     /**
      * @var string
      */
     protected $model;
-
     /**
      * @var \JMS\Serializer\Serializer
      */
     protected $serializer;
-
     /**
      * @var integer
      */
     protected $recordsPerPage;
-
     /**
      * @var \Doctrine\ORM\EntityManager
      */
     protected $entityManager;
-
     /**
      * @var array
      */
     protected $currentGrid;
 
     /**
-     * @var string
-     */
-    protected $orderBy;
-
-    /**
-     * @var string
-     */
-    protected $orderType;
-
-    /**
-     * s
-     * @param Paginator $paginator
-     * @param Serializer $serializer
-     * @param EntityManager $entityManager
+     * @param PaginatorInterface $paginator
+     * @param SerializerInterface $serializer
+     * @param EntityManagerInterface $entityManager
      * @param Request $request
      * @param $defaultRecordsPerPage
      * @param $grids
      */
     public function __construct(
-        Paginator $paginator,
-        Serializer $serializer,
-        EntityManager $entityManager,
+        PaginatorInterface $paginator,
+        SerializerInterface $serializer,
+        EntityManagerInterface $entityManager,
         Request $request = null,
         $defaultRecordsPerPage,
         $grids
@@ -98,16 +83,6 @@ abstract class AbstractDatatables implements DatatablesInterface
      */
     abstract public function getResult();
 
-
-    /**
-     *
-     * @param $recordsPerPage
-     */
-    public function setRecordsPerPage($recordsPerPage)
-    {
-        $this->recordsPerPage = $recordsPerPage;
-    }
-
     /**
      *
      * @return mixed
@@ -119,20 +94,11 @@ abstract class AbstractDatatables implements DatatablesInterface
 
     /**
      *
-     * @param $orderBy
+     * @param $recordsPerPage
      */
-    public function setOrderBy($orderBy)
+    public function setRecordsPerPage($recordsPerPage)
     {
-        $this->orderBy = $orderBy;
-    }
-
-    /**
-     *
-     * @return mixed
-     */
-    public function getOrderBy()
-    {
-        return $this->orderBy;
+        $this->recordsPerPage = $recordsPerPage;
     }
 
     /**

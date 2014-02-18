@@ -6,9 +6,9 @@ use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
 /**
- * This is the class that validates and merges configuration from your app/config files
+ * This class contains the configuration information for DatatablesBundle.
  *
- * To learn more see {@link http://symfony.com/doc/current/cookbook/bundles/extension.html#cookbook-bundles-extension-config-class}
+ * @author <michal@devhelp.pl>
  */
 class Configuration implements ConfigurationInterface
 {
@@ -33,16 +33,17 @@ class Configuration implements ConfigurationInterface
             ->children()
                 ->scalarNode('model')->isRequired()->end()
                 ->scalarNode('routing')->isRequired()->end()
-                ->scalarNode('use_filters')->end()
-                ->scalarNode('default_per_page')->end()
-                ->scalarNode('order_by')->end()
-                ->enumNode('order_type')->values(array('asc', 'desc'))->end()
+                ->booleanNode('use_filters')->defaultTrue()->end()
+                ->scalarNode('default_per_page')->defaultValue(10)->end()
                 ->arrayNode('columns')
                 ->prototype('array')
                     ->children()
-                    ->scalarNode('mData')->isRequired()->end()
-                    ->scalarNode('bSearchable')->isRequired()->end()
-                    ->scalarNode('sName')->isRequired()->end()
+                    ->scalarNode('title')->isRequired()->end()
+                    ->scalarNode('data')->isRequired()->end()
+                    ->scalarNode('alias')->isRequired()->end()
+                    ->scalarNode('searchable')->defaultValue(1)->end()
+                    ->scalarNode('visible')->defaultValue(1)->end()
+                    ->scalarNode('width')->defaultValue('20px')->end()
             ->end();
         return $treeBuilder;
     }

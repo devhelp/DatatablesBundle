@@ -1,24 +1,22 @@
 <?php
 
-namespace Devhelp\DatatablesBundle\Lib;
+namespace Devhelp\DatatablesBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * Class AbstractDatatablesRepository
- * @package Devhelp\DatatablesBundle\Lib
+ * Abstract repository class contains default methods for sorting and filtering data in grid
+ *
+ * @author <michal@devhelp.pl>
  */
 abstract class AbstractDatatablesRepository extends EntityRepository implements DatatablesRepositoryInterface
 {
 
     /**
-     * @return mixed
-     */
-    abstract public function getBaseQuery();
-
-    /**
-     * @return mixed
+     * This functions is responsible for returning number of records
+     *
+     * @return integer
      */
     public function getTotalRowsCount()
     {
@@ -29,12 +27,12 @@ abstract class AbstractDatatablesRepository extends EntityRepository implements 
     }
 
     /**
+     * This function is responsible for creating final query with request
+     *
      * @param Request $request
-     * @param null $default_order_by
-     * @param null $default_order_type
      * @return mixed
      */
-    public function buildFinalQuery(Request $request, $default_order_by = null, $default_order_type = null)
+    public function buildFinalQuery(Request $request)
     {
         $finalQuery = $this->getBaseQuery();
 
@@ -77,10 +75,6 @@ abstract class AbstractDatatablesRepository extends EntityRepository implements 
                         $sorting[$sColumns[$column]] = $order;
                         $finalQuery->addOrderBy($sColumns[$column], $order);
                     }
-                }
-            } else {
-                if ($default_order_by && $default_order_type) {
-                    $finalQuery->addOrderBy($default_order_by, $default_order_type);
                 }
             }
         }

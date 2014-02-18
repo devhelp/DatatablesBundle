@@ -1,10 +1,11 @@
 <?php
 
-namespace Devhelp\DatatablesBundle\Lib;
+namespace Devhelp\DatatablesBundle\Service;
 
 /**
- * Interface DatatablesInterface
- * @package Devhelp\DatatablesBundle\Lib
+ * Datatables interface
+ *
+ * @author <michal@devhelp.pl>
  */
 
 interface DatatablesInterface
@@ -31,16 +32,6 @@ interface DatatablesInterface
      */
     public function getRecordsPerPage();
 
-    /**
-     * @param $orderBy
-     * @return mixed
-     */
-    public function setOrderBy($orderBy);
-
-    /**
-     * @return mixed
-     */
-    public function getOrderBy();
 
     /**
      * @param $orderType

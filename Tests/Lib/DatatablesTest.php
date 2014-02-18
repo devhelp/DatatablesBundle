@@ -56,14 +56,14 @@ class DatatablesTest extends \PHPUnit_Framework_TestCase
                     'order_type' => 'asc',
                     'columns' => array(
                         0 => array(
-                            'mData' => 'id',
-                            'bSearchable' => 1,
-                            'sName' => 'p.id'
+                            'title' => 'ID',
+                            'data' => 'id',
+                            'alias' => 'p.id'
                         ),
                         1 => array(
-                            'mData' => 'name',
-                            'bSearchable' => 1,
-                            'sName' => 'p.name'
+                            'title' => 'ID',
+                            'data' => 'id',
+                            'alias' => 'p.id'
                         ),
                     )
                 ),
@@ -111,8 +111,6 @@ class DatatablesTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($grid['grids']['simple_grid']['model'], $this->datatables->getModel());
         $this->assertEquals($grid['grids']['simple_grid']['use_filters'], true);
         $this->assertEquals($grid['grids']['simple_grid']['default_per_page'], $this->datatables->getRecordsPerPage());
-        $this->assertEquals($grid['grids']['simple_grid']['order_by'], $this->datatables->getOrderBy());
-        $this->assertEquals($grid['grids']['simple_grid']['order_type'], $this->datatables->getOrderType());
 
 
     }

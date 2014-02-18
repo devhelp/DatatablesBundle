@@ -5,7 +5,7 @@
     <thead>
     <tr>
         {% for column in config.columns %}
-            <th>{{ column.mData }}</th>
+            <th>{{ column.title }}</th>
         {% endfor %}
     </tr>
     </thead>
@@ -14,7 +14,7 @@
     <tfoot>
     <tr>
         {% for column in config.columns %}
-            <th>{{ column.mData }}</th>
+            <th>{{ column.title }}</th>
         {% endfor %}
     </tr>
     </tfoot>
@@ -22,18 +22,24 @@
 <script>
     $(document).ready(function() {
         var datatables = $('#{{ id }}').dataTable({
-            bProcessing     : true,
             sAjaxSource     : "{{ path(config.routing) }}",
+            iDisplayLength  : {{ config.default_per_page }},
             bServerSide     : true,
             aoColumns: [
                 {% for column in config.columns %}
-                    { mData: "{{ column.mData }}", bSearchable: {{ column.bSearchable }}   , sName : "{{ column.sName }}" },
+                    { sClass: "option-filtering-{{ column.searchable }}", mData: "{{ column.data }}", bSearchable: "{{ column.searchable }}", sName : "{{ column.alias }}", sTitle: "{{ column.title }}", bVisible: {{ column.visible }}, sWidth: "{{ column.width }}" },
                 {% endfor %}
             ]
         });
         {% if(config.use_filters) %}
         datatables.columnFilter();
         {% endif %}
-    });
 
+        /* remove input for non filtering field */
+        $('.option-filtering-0 input').remove();
+        {% for column in config.columns %}
+        $('.option-filtering-{{ column.searchable }} input').width("{{ column.width }}");
+        {% endfor %}
+
+    });
 </script>

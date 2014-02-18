@@ -1,5 +1,5 @@
 parameters:
-    datatables.class: Devhelp\DatatablesBundle\Lib\Datatables
+    datatables.class: Devhelp\DatatablesBundle\Service\Datatables
     twig_extension.class: Devhelp\DatatablesBundle\Twig\DatatablesExtension
 
 services:
