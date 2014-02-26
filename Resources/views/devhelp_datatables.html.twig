@@ -23,6 +23,7 @@
     $(document).ready(function() {
         var datatables = $('#{{ id }}').dataTable({
             sAjaxSource     : "{{ path(config.routing) }}",
+            aaSorting       : [[ 0, "desc" ]],
             iDisplayLength  : {{ config.default_per_page }},
             bServerSide     : true,
             aoColumns: [

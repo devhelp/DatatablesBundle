@@ -8,7 +8,7 @@ use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * AbstractDatatables class implements common method for all
+ * AbstractDatatables class implements common methods for all
  * datables instance object
  *
  * @author <michal@devhelp.pl>
@@ -16,29 +16,35 @@ use Symfony\Component\HttpFoundation\Request;
 abstract class AbstractDatatables
 {
     /**
-     * @var \Knp\Component\Pager\Paginator
+     * @var \Knp\Component\Pager\PaginatorInterface
      */
     protected $paginator;
+
     /**
      * @var \Symfony\Component\HttpFoundation\Request
      */
     protected $request;
+
     /**
      * @var string
      */
     protected $model;
+
     /**
-     * @var \JMS\Serializer\Serializer
+     * @var \JMS\Serializer\SerializerInterface
      */
     protected $serializer;
+
     /**
      * @var integer
      */
     protected $recordsPerPage;
+
     /**
-     * @var \Doctrine\ORM\EntityManager
+     * @var \Doctrine\ORM\EntityManagerInterface
      */
     protected $entityManager;
+
     /**
      * @var array
      */
@@ -71,19 +77,7 @@ abstract class AbstractDatatables
     }
 
     /**
-     *
-     * @param $grid
-     * @return mixed
-     */
-    abstract public function load($grid);
-
-    /**
-     *
-     * @return mixed
-     */
-    abstract public function getResult();
-
-    /**
+     * Get default records per page
      *
      * @return mixed
      */
@@ -93,33 +87,19 @@ abstract class AbstractDatatables
     }
 
     /**
+     * Set default records per page
      *
      * @param $recordsPerPage
      */
     public function setRecordsPerPage($recordsPerPage)
     {
         $this->recordsPerPage = $recordsPerPage;
+        return $this;
     }
 
-    /**
-     *
-     * @param $orderType
-     */
-    public function setOrderType($orderType)
-    {
-        $this->orderType = $orderType;
-    }
 
     /**
-     *
-     * @return mixed
-     */
-    public function getOrderType()
-    {
-        return $this->orderType;
-    }
-
-    /**
+     * Get model
      *
      * @return mixed
      */
@@ -129,15 +109,19 @@ abstract class AbstractDatatables
     }
 
     /**
+     * Set model
      *
      * @param string $model
+     * @return $this
      */
     public function setModel($model)
     {
         $this->model = $model;
+        return $this;
     }
 
     /**
+     * Get currenct configured grid
      *
      * @return mixed
      */
@@ -147,12 +131,127 @@ abstract class AbstractDatatables
     }
 
     /**
+     * Set current configured grid
      *
      * @param array $grid
+     * @return AbstractDatatables
      */
     public function setCurrentGrid($grid)
     {
         $this->currentGrid = $grid;
+        return $this;
     }
+
+    /**
+     * @param mixed $configuredGrids
+     * @return AbstractDatatables
+     */
+    public function setConfiguredGrids($configuredGrids)
+    {
+        $this->configuredGrids = $configuredGrids;
+        return $this;
+    }
+
+    /**
+     * Get Configured grids
+     *
+     * @return array
+     */
+    public function getConfiguredGrids()
+    {
+        return $this->configuredGrids;
+    }
+
+    /**
+     * @param \Doctrine\ORM\EntityManagerInterface $entityManager
+     * @return AbstractDatatables
+     */
+    public function setEntityManager($entityManager)
+    {
+        $this->entityManager = $entityManager;
+        return $this;
+    }
+
+    /**
+     * @return \Doctrine\ORM\EntityManagerInterface
+     */
+    public function getEntityManager()
+    {
+        return $this->entityManager;
+    }
+
+    /**
+     * @param array $output
+     * @return AbstractDatatables
+     */
+    public function setOutput($output)
+    {
+        $this->output = $output;
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getOutput()
+    {
+        return $this->output;
+    }
+
+    /**
+     * @param \Knp\Component\Pager\PaginatorInterface $paginator
+     * @return AbstractDatatables
+     */
+    public function setPaginator($paginator)
+    {
+        $this->paginator = $paginator;
+        return $this;
+    }
+
+    /**
+     * @return \Knp\Component\Pager\PaginatorInterface
+     */
+    public function getPaginator()
+    {
+        return $this->paginator;
+    }
+
+    /**
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @return AbstractDatatables
+     */
+    public function setRequest($request)
+    {
+        $this->request = $request;
+        return $this;
+    }
+
+    /**
+     * @return \Symfony\Component\HttpFoundation\Request
+     */
+    public function getRequest()
+    {
+        return $this->request;
+    }
+
+    /**
+     * @param \JMS\Serializer\SerializerInterface $serializer
+     * @return AbstractDatatables
+     */
+    public function setSerializer($serializer)
+    {
+        $this->serializer = $serializer;
+        return $this;
+    }
+
+    /**
+     * @return \JMS\Serializer\SerializerInterface
+     */
+    public function getSerializer()
+    {
+        return $this->serializer;
+    }
+
+
 
 }
