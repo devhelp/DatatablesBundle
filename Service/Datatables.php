@@ -11,7 +11,7 @@ class Datatables extends AbstractDatatables implements DatatablesInterface
 {
 
     /**
-     * Load configuration
+     * Load configuration and set current grid
      *
      * @param $grid
      * @return mixed|void
