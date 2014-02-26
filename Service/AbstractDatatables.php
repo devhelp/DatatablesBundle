@@ -90,6 +90,7 @@ abstract class AbstractDatatables
      * Set default records per page
      *
      * @param $recordsPerPage
+     * @return $this
      */
     public function setRecordsPerPage($recordsPerPage)
     {
