@@ -183,3 +183,4 @@ using composer.json
 ```twig
     {{ render_datatables_grid('product_grid') }}
 ```
+
