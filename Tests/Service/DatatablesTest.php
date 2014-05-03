@@ -1,21 +1,14 @@
 <?php
 
-// src/Acme/DemoBundle/Tests/Utility/CalculatorTest.php
+namespace Devhelp\DatatablesBundle\Tests\Service;
 
-namespace Devhelp\DatatablesBundle\Tests\Lib;
-
-use Devhelp\DatatablesBundle\Lib\Datatables;
-use Devhelp\DemoBundle\Entity\ProductRepository;
-use Doctrine\ORM\QueryBuilder;
+use Devhelp\DatatablesBundle\Service\Datatables;
 use Symfony\Component\HttpFoundation\Request;
-use Knp\Component\Pager\Paginator;
-use JMS\Serializer\Serializer;
-use Doctrine\ORM\EntityManager;
 
 class DatatablesTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Devhelp\DatatablesBundle\Lib\Datatables
+     * @var \Devhelp\DatatablesBundle\Service\Datatables
      */
     public $datatables;
 
@@ -48,7 +41,7 @@ class DatatablesTest extends \PHPUnit_Framework_TestCase
             'default_per_page' => 10,
             'grids' => array(
                 'simple_grid' => array(
-                    'model' => 'Devhelp\DatatablesBundle\Tests\Entity\Demo',
+                    'model' => 'Devhelp\DatatablesBundle\Tests\Fixtures\Entity\Test',
                     'routing' => 'test',
                     'use_filters' => true,
                     'default_per_page' => 10,
@@ -111,7 +104,6 @@ class DatatablesTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($grid['grids']['simple_grid']['model'], $this->datatables->getModel());
         $this->assertEquals($grid['grids']['simple_grid']['use_filters'], true);
         $this->assertEquals($grid['grids']['simple_grid']['default_per_page'], $this->datatables->getRecordsPerPage());
-
 
     }
 
@@ -181,7 +173,7 @@ class DatatablesTest extends \PHPUnit_Framework_TestCase
 
         $mock->expects($this->any())
             ->method('getRepository')
-            ->with('Devhelp\DatatablesBundle\Tests\Entity\Demo')
+            ->with('Devhelp\DatatablesBundle\Tests\Fixtures\Entity\Test')
             ->will($this->returnValue($this->getDatatablesRepositoryMock()));
 
         return $mock;
@@ -231,7 +223,7 @@ class DatatablesTest extends \PHPUnit_Framework_TestCase
      */
     protected function getDatatablesRepositoryMock()
     {
-        $mock = $this->getMockBuilder('Devhelp\DatatablesBundle\Tests\Entity\DemoRepository')
+        $mock = $this->getMockBuilder('Devhelp\DatatablesBundle\Tests\Fixtures\Repository\TestRepository')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -257,6 +249,5 @@ class DatatablesTest extends \PHPUnit_Framework_TestCase
 
         return $mock;
     }
-
 
 }

@@ -21,5 +21,4 @@ interface DatatablesInterface
      */
     public function getResult();
 
-
 }

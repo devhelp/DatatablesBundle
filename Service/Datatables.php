@@ -24,6 +24,7 @@ class Datatables extends AbstractDatatables implements DatatablesInterface
             $this->setModel($this->currentGrid["model"]);
             $this->setRecordsPerPage($this->currentGrid["default_per_page"]);
         } else {
+
             throw new \Exception("Grid not found");
         }
     }
@@ -62,7 +63,6 @@ class Datatables extends AbstractDatatables implements DatatablesInterface
         $json = $this->serializer->serialize($this->output, "json");
 
         return $json;
-
     }
 
 
