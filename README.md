@@ -1,5 +1,5 @@
 #DatatablesBundle
-[![Build Status](https://travis-ci.org/devhelp/DatatablesBundle.png?branch=master)](https://travis-ci.org/devhelp/datatablesBundle)
+[![Build Status](https://travis-ci.org/devhelp/DatatablesBundle.png?branch=master)](https://travis-ci.org/devhelp/DatatablesBundle)
 
 [![SensioLabsInsight](https://insight.sensiolabs.com/projects/bc9237da-698a-417f-8e69-ab11b61f6811/big.png)](https://insight.sensiolabs.com/projects/bc9237da-698a-417f-8e69-ab11b61f6811)
 
